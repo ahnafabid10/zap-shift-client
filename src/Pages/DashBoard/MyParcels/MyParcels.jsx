@@ -1,14 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
-import useAuth from '../../../hooks/useAuth';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { FiEdit } from 'react-icons/fi';
 import { FaMagnifyingGlass, FaTrashCan } from 'react-icons/fa6';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router';
+import UseAuth from '../../../Hooks/UseAuth';
 
 const MyParcels = () => {
-    const { user } = useAuth();
+    const { user } = UseAuth();
     const axiosSecure = useAxiosSecure();
 
     const { data: parcels = [], refetch } = useQuery({
@@ -63,11 +63,23 @@ const MyParcels = () => {
             senderEmail: parcel.senderEmail,
             parcelName: parcel.parcelName
         }
-        const res = await axiosSecure.post('/payment-checkout-session', paymentInfo);
+        const res = await axiosSecure.post('payment-checkout-session', paymentInfo);
 
         console.log(res.data.url);
         window.location.assign(res.data.url);
     }
+
+    // const handlePayment = async (parcel)=>{
+    //     const paymentInfo = {
+    //         cost:parcel.cost,
+    //         parcelId: parcel._id,
+    //         senderEmail:parcel.senderEmail,
+    //         parcelName: parcel.parcelName
+    //     }
+    //     const res = await axiosSecure.post('/payment-checkout-session', paymentInfo);
+    //     console.log(res.data.url)
+        
+    // }
 
     return (
         <div>
