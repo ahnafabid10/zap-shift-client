@@ -25,7 +25,7 @@ const Payment = () => {
 
     return (
         <div>
-            <h2>Please Pay: {parcel.parcelName}</h2>
+            <h2>Please Pay: ${parcel.cost} for: {parcel.parcelName}</h2>
             <button className='btn btn-primary text-black'>Pay</button>
         </div>
     );
