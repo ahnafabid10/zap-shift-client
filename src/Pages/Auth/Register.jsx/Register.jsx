@@ -4,6 +4,7 @@ import UseAuth from '../../../Hooks/UseAuth';
 import { Link, useLocation } from 'react-router';
 import SocialLogin from '../SocialLogin/SocialLogin';
 import axios from 'axios';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const Register = () => {
 
@@ -12,6 +13,7 @@ const Register = () => {
     const {registerUser,updateUserProfile} = UseAuth()
     const location = useLocation();
     const navigate = useLocation();
+    const axiosSecure = useAxiosSecure()
 
     const handleRegistration = (data)=>{
         console.log(data)
@@ -27,12 +29,26 @@ const Register = () => {
             const image_API_URL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host}`
             axios.post(image_API_URL, formData)
             .then(res=>{
-                console.log('after image upload', res.data.data.url)
+                const photoURL = res.data.data.url;
+
+                // create user in the database
+                const userInfo = {
+                    email: data.email,
+                    displayName: data.name,
+                    photoURL: photoURL
+                }
+                axiosSecure.post('/users', userInfo)
+                .then(res=>{
+                    if(res.data.insertedId){
+                        console.log('user in database')
+                    }
+                })
+
 
                 //update user profile
                 const userProfile = {
                     displayName: data.name,
-                    photoURL:res.data.data.url
+                    photoURL:photoURL
                 }
                 updateUserProfile(userProfile)
                 .then(()=>{
