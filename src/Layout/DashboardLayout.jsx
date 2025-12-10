@@ -42,6 +42,13 @@ const DashboardLayout = () => {
             <span className="is-drawer-close:hidden"> My Parcels</span>
            </NavLink>
         </li>
+        {/* payment history */}
+        <li>
+            <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Payment History" to="/dashboard/payment-history">
+            <FaCreditCard />
+            <span className="is-drawer-close:hidden"> Payment History</span>
+           </NavLink>
+        </li>
 
 
 
